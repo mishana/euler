@@ -1,10 +1,8 @@
 #include <iostream>
 #include <vector>
-//#include <bits/stdc++.h>
 
 
-unsigned int gcd(unsigned int u, unsigned int v)
-{
+unsigned int gcd(unsigned int u, unsigned int v) {
     unsigned int shift = 0;
 
     /* GCD(0,v) == v; GCD(u,0) == u, GCD(0,0) == 0 */
@@ -34,7 +32,9 @@ unsigned int gcd(unsigned int u, unsigned int v)
              swapping is just pointer movement, and the subtraction
               can be done in-place. */
         if (u > v) {
-            unsigned int t = v; v = u; u = t; // Swap u and v.
+            unsigned int t = v;
+            v = u;
+            u = t; // Swap u and v.
         }
 
         v -= u; // Here v >= u.
@@ -45,8 +45,7 @@ unsigned int gcd(unsigned int u, unsigned int v)
 }
 
 
-unsigned int phi(unsigned int n)
-{
+unsigned int phi(unsigned int n) {
     unsigned int result = n; // Initialize result as n
 
     if (n % 2 == 0) {
@@ -58,7 +57,7 @@ unsigned int phi(unsigned int n)
     }
     // Consider all prime factors of n and for every prime
     // factor p, multiply result with (1 - 1/p)
-    for (unsigned int p = 3; p * p <= n; p+=2) {
+    for (unsigned int p = 3; p * p <= n; p += 2) {
         if (n == 1)
             return result;
         // Check if p is a prime factor.
@@ -84,46 +83,26 @@ void phi_1_to_n(unsigned int n) {
     std::vector<unsigned int> phi(n + 1);
     phi[0] = 0;
     phi[1] = 1;
-    printf("%d ", phi[1]);
-
-    for (int i = 2; i <= n; i++)
-        phi[i] = i;
 
     for (int i = 2; i <= n; i++) {
-        if (phi[i] == i) {
-            for (int j = i; j <= n; j += i)
+        if (!phi[i]) {
+            phi[i] = i - 1;
+            for (int j = i << 1; j <= n; j += i) {
+                if (!phi[j]) phi[j] = j;
                 phi[j] -= phi[j] / i;
+            }
         }
-        printf("%d ", phi[i]);
     }
+
+    for (int i = 1; i < n; i++)
+        printf("%d ", phi[i]);
+    printf("%d", phi[n]);
 }
 
 
-int main(int argc, char* argv[]) {
-//    std::ios_base::sync_with_stdio(false);
-//    std::cin.tie(NULL);
-
+int main(int argc, char *argv[]) {
     unsigned int num = std::stoi(argv[1]);
-
-//    using namespace std::chrono;
-//    auto start = steady_clock::now();
-
-    unsigned int res;
-//    for (unsigned int n = 1; n <= num; ++n) {
-//        if (n % 4 == 0) {
-//            res = phi(n / 2) * 2;
-//        } else if (n % 2 == 0) {
-//            res = phi(n / 2);
-//        } else {
-//            res = phi(n);
-//        }
-////        std::cout << res << " ";
-//        printf("%d ", res);
-//    }
     phi_1_to_n(num);
-    std::cout << "\n";
-//    auto end = steady_clock::now();
-//
-//    std::cout << "time: " << duration_cast<milliseconds>(end - start).count() << " ms, result: " << res << "\n";
+
     return 0;
 }
