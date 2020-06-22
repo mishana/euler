@@ -1,5 +1,6 @@
 #include <iostream>
-#include <bits/stdc++.h>
+#include <vector>
+//#include <bits/stdc++.h>
 
 
 unsigned int gcd(unsigned int u, unsigned int v)
@@ -79,30 +80,50 @@ unsigned int phi(unsigned int n)
 }
 
 
+void phi_1_to_n(unsigned int n) {
+    std::vector<unsigned int> phi(n + 1);
+    phi[0] = 0;
+    phi[1] = 1;
+    printf("%d ", phi[1]);
+
+    for (int i = 2; i <= n; i++)
+        phi[i] = i;
+
+    for (int i = 2; i <= n; i++) {
+        if (phi[i] == i) {
+            for (int j = i; j <= n; j += i)
+                phi[j] -= phi[j] / i;
+        }
+        printf("%d ", phi[i]);
+    }
+}
+
+
 int main(int argc, char* argv[]) {
 //    std::ios_base::sync_with_stdio(false);
 //    std::cin.tie(NULL);
 
     unsigned int num = std::stoi(argv[1]);
 
-    using namespace std::chrono;
-    auto start = steady_clock::now();
+//    using namespace std::chrono;
+//    auto start = steady_clock::now();
 
     unsigned int res;
-    for (unsigned int n = 1; n <= num; ++n) {
-        if (n % 4 == 0) {
-            res = phi(n / 2) * 2;
-        } else if (n % 2 == 0) {
-            res = phi(n / 2);
-        } else {
-            res = phi(n);
-        }
-//        std::cout << res << " ";
-        printf("%d ", res);
-    }
+//    for (unsigned int n = 1; n <= num; ++n) {
+//        if (n % 4 == 0) {
+//            res = phi(n / 2) * 2;
+//        } else if (n % 2 == 0) {
+//            res = phi(n / 2);
+//        } else {
+//            res = phi(n);
+//        }
+////        std::cout << res << " ";
+//        printf("%d ", res);
+//    }
+    phi_1_to_n(num);
     std::cout << "\n";
-    auto end = steady_clock::now();
-
-    std::cout << "time: " << duration_cast<milliseconds>(end - start).count() << " ms, result: " << res << "\n";
+//    auto end = steady_clock::now();
+//
+//    std::cout << "time: " << duration_cast<milliseconds>(end - start).count() << " ms, result: " << res << "\n";
     return 0;
 }

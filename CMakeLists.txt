@@ -3,6 +3,4 @@ project(euler)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(euler
-        euler.cpp
-        )
+add_executable(euler euler.cpp)
